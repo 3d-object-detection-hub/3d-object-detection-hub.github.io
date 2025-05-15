@@ -1,8 +1,22 @@
-title: Just the Docs Template
-description: A starter template for a Jeykll site using the Just the Docs theme!
+title: "3D Object Detection Hub"
+description: "Benchmarks, methods, and datasets for monocular and multi-modal 3D object detection"
 theme: just-the-docs
 
-url: https://just-the-docs.github.io
+color_scheme: dark
 
-aux_links:
-  Template Repository: https://github.com/just-the-docs/just-the-docs-template
+url: https://elpatoo.github.io
+
+# Enable the search
+search_enabled: true
+search:
+  heading_level: 2
+  previews: 3
+  tokenizer_separator: /[\s/]+/
+  rel_url: true
+  button: true
+
+# Show page navigation on the sidebar
+nav_sort: case_insensitive
+
+# Set repo if you want a "View on GitHub" link
+repository: elpatoo/elpatoo.github.io
