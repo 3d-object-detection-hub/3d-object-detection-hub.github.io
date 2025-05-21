@@ -19,6 +19,9 @@ Your gateway to state-of-the-art 3D perception research. Here you’ll find:
 - **MonoFlex** – flexible monocular pipelines  
 - **Voxel Graph Network** – _my thesis model_  
 
+### Explore
+- [Models Database](/models/) ← click here to browse all the published 3D-OD models
+
 ### 📈 Results & Visuals
 - Leaderboards, PR curves, AP tables  
 - Interactive demos & point-cloud viewers
