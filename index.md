@@ -17,7 +17,7 @@ Your gateway to state-of-the-art 3D perception research. Here you’ll find:
 - **SMOKE** – sequential monocular detector  
 - **DD3D** – distribution-driven approaches  
 - **MonoFlex** – flexible monocular pipelines  
-- **Voxel Graph Network** – _my thesis model_  
+- **Voxel Graph Network** – _my thesis model_ Test  
 
 ### Explore
 - [Models Database](/models/) ← click here to browse all the published 3D-OD models
