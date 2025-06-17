@@ -1,67 +1,43 @@
-/* DATATABLES OVERRIDES */
-
-/* 1) Shrink the whole table */
-#models-table.dataTable {
-  font-size: 0.85rem;
-  border-collapse: separate;
-  border-spacing: 0;
+/* Remove the old full-orange table background */
+table.dataTable {
+  background: none !important;
 }
 
-/* 2) Tighter cells */
-#models-table.dataTable th,
-#models-table.dataTable td {
-  padding: 0.4rem 0.6rem;
-}
-
-/* 3) Header styling */
-#models-table.dataTable thead th {
-  background: var(--accent-color);
-  color: var(--bg-color);
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  border-bottom: 2px solid var(--link-color);
-}
-
-/* 4) Zebra stripes */
-#models-table.dataTable tbody tr:nth-child(odd) {
-  background: rgba(255,255,255,0.05);
-}
-
-/* 5) Hover highlight */
-#models-table.dataTable tbody tr:hover {
-  background: rgba(255,255,255,0.1);
-}
-
-/* 6) Button styling */
-section .site-content button {
-  background: var(--link-color);
-  color: var(--bg-color);
-  border: none;
-  padding: 0.4rem 0.8rem;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-section .site-content button:hover {
+/* Header row styling */
+table.dataTable thead {
   background: var(--accent-color);
 }
-
-/* 7) Paginate controls & filter box */
-.dataTables_wrapper .dataTables_paginate .paginate_button {
-  background: var(--border-color);
-  color: var(--text-color) !important;
-  border-radius: 3px;
-  margin: 0 0.2rem;
-  padding: 0.2rem 0.5rem;
-}
-.dataTables_wrapper .dataTables_paginate .paginate_button.current {
-  background: var(--link-color);
+table.dataTable thead th {
   color: var(--bg-color) !important;
+  font-weight: bold;
+  padding: 0.6em 0.8em;
 }
-.dataTables_wrapper .dataTables_filter input {
+
+/* Alternating body rows for contrast */
+table.dataTable tbody tr:nth-child(odd) {
+  background: var(--bg-color);
+}
+table.dataTable tbody tr:nth-child(even) {
+  background: var(--border-color);
+}
+table.dataTable tbody td {
+  color: var(--text-color);
+  padding: 0.4em 0.6em;
+}
+
+/* Search box & pagination controls */
+.dataTables_wrapper .dataTables_filter input,
+.dataTables_wrapper .dataTables_length select {
   background: var(--border-color);
   color: var(--text-color);
   border: 1px solid var(--accent-color);
-  padding: 0.3rem 0.5rem;
-  border-radius: 3px;
+  padding: 0.2em 0.4em;
+}
+
+/* Active filter button highlight */
+#sensor-filters button.active,
+#rep-filters button.active {
+  background: var(--accent-color);
+  color: var(--bg-color);
+  border-color: var(--accent-color);
 }

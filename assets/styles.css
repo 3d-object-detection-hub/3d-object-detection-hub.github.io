@@ -59,6 +59,23 @@ nav.site-nav a {
   font-weight: 500;
 }
 
+/* datasets page tweaks */
+.datasets {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+}
+.datasets th,
+.datasets td {
+  padding: 0.5rem 1rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.datasets th {
+  background: var(--accent-color);
+  color: var(--bg-color);
+}
+
 /* 5. Posts list */
 .post-list {
   list-style: none;

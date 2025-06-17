@@ -1,86 +1,156 @@
 ---
 layout: default
-title: All 3D-OD Models
+title: 3D Object Detection
 permalink: /models/
 ---
 
 <section class="site-content">
 
-# All 3D-Object-Detection Models
+## All 3D-Object-Detection Models
 
-<p>Filter by sensor/representation, sort by year or mAP, and search any column.</p>
-
-<div style="margin-bottom:1rem;">
-  <button data-filter="" style="margin-right:.5rem;">All Models</button>
-  <button data-filter="Monocular" style="margin-right:.5rem;">Monocular</button>
-  <button data-filter="Stereo" style="margin-right:.5rem;">Stereo</button>
-  <button data-filter="LiDAR" style="margin-right:.5rem;">LiDAR</button>
-  <button data-filter="Multiview" style="margin-right:.5rem;">Multiview</button>
+**Primary filter by sensor:**  
+<div id="primary-filters" class="btn-group" style="margin:1em 0;">
+  <button data-filter="All">All Models</button>
+  <button data-filter="Camera">Camera</button>
+  <button data-filter="LiDAR">LiDAR</button>
   <button data-filter="Multi-Modal">Multi-Modal</button>
+</div>
+
+<!-- secondary filters: shown only when a specific sensor is selected -->
+<div id="secondary-filters" style="margin:0 0 1em;">
+  <!-- for Camera -->
+  <div class="sensor-specific" data-sensor="Camera" style="display:none;">
+    <button data-subfilter="Monocular">Monocular</button>
+    <button data-subfilter="Stereo">Stereo</button>
+    <button data-subfilter="Multiview">Multiview</button>
+  </div>
+  <!-- for LiDAR -->
+  <div class="sensor-specific" data-sensor="LiDAR" style="display:none;">
+    <button data-subfilter="Projection">Projection</button>
+    <button data-subfilter="Voxel">Voxel</button>
+    <button data-subfilter="Point">Point</button>
+    <button data-subfilter="Point-Voxel">Point-Voxel</button>
+  </div>
+  <!-- for Multi-Modal -->
+  <div class="sensor-specific" data-sensor="Multi-Modal" style="display:none;">
+    <button data-subfilter="Early-Fusion">Early-Fusion</button>
+    <button data-subfilter="Mid-Fusion">Mid-Fusion</button>
+    <button data-subfilter="Intermediate">Intermediate</button>
+    <button data-subfilter="Late-Fusion">Late-Fusion</button>
+  </div>
 </div>
 
 <table id="models-table" class="display" style="width:100%">
   <thead>
-    <tr id="models-header-row"></tr>
+    <tr>
+      <th rowspan="2">Method</th>
+      <th rowspan="2">Sensor</th>
+      <th rowspan="2">Representation</th>
+      <th rowspan="2">Year</th>
+      <th rowspan="2">Month</th>
+      <th colspan="3">AP2D<br>(KITTI Car)</th>
+      <th colspan="3">AP3D<br>(KITTI Car)</th>
+      <th colspan="3">APBEV<br>(KITTI Car)</th>
+      <th rowspan="2">NuScenes mAP</th>
+      <th rowspan="2">NDS</th>
+      <th rowspan="2">Waymo L1</th>
+      <th rowspan="2">Waymo L2</th>
+      <th rowspan="2">Time (s)</th>
+      <th rowspan="2">Code</th>
+      <th rowspan="2">Hardware</th>
+      <th rowspan="2">Paper</th>
+    </tr>
+    <tr>
+      <th>E</th><th>M</th><th>H</th>
+      <th>E</th><th>M</th><th>H</th>
+      <th>E</th><th>M</th><th>H</th>
+    </tr>
   </thead>
 </table>
+
+<!-- parameter definitions -->
+<div class="table-description" style="margin-top:1.5em; font-size:0.9em; line-height:1.4;">
+  <p><strong>Parameter descriptions:</strong></p>
+  <ul>
+    <li><strong>AP2D:</strong> 2D Average Precision on KITTI Car test (Easy, Moderate, Hard)</li>
+    <li><strong>AP3D:</strong> 3D Average Precision on KITTI Car test (Easy, Moderate, Hard)</li>
+    <li><strong>APBEV:</strong> Bird’s-Eye-View Average Precision on KITTI Car test (Easy, Moderate, Hard)</li>
+    <li><strong>NuScenes mAP:</strong> Mean Average Precision on nuScenes validation</li>
+    <li><strong>NDS:</strong> nuScenes Detection Score</li>
+    <li><strong>Waymo L1 / L2:</strong> Level-1 / Level-2 mAP on Waymo Open Dataset</li>
+    <li><strong>Time (s):</strong> Inference time per frame (seconds)</li>
+  </ul>
+</div>
 
 </section>
 
 <script>
-$(document).ready(function(){
+$(function(){
+  // load and parse CSV
   Papa.parse("{{ '/assets/data/models.csv' | relative_url }}", {
     download: true,
-    header: true,
-    dynamicTyping: true,
     skipEmptyLines: true,
-    complete: function(results) {
-      // 1) Remove that extra second-row-of-subheaders by filtering out any row
-      //    where the Method field is blank or literally equals the header string.
-      const data = results.data.filter(r => {
-        const m = r.Method;
-        return m != null && m.toString().trim() !== '' && m.toString().trim() !== 'Method';
-      });
+    header: false,
+    complete(results) {
+      const data = results.data.slice(2);
 
-      // 2) Grab the real header names
-      const fields = results.meta.fields;
+      // column definitions
+      const cols = [
+        { data: 0 },{ data: 1 },{ data: 2 },{ data: 3 },{ data: 4 },
+        { data: 5 },{ data: 6 },{ data: 7 },   // AP2D E/M/H
+        { data: 8 },{ data: 9 },{ data: 10 },  // AP3D E/M/H
+        { data: 11 },{ data: 12 },{ data: 13 },// APBEV E/M/H
+        { data: 14 },{ data: 15 },{ data: 16 },{ data: 17 },
+        { data: 18 },{ data: 19 },{ data: 20 },
+        { data: 21, // Paper URL → Link
+          render: v => v ? `<a href="${v.trim()}" target="_blank">Link</a>` : ''
+        }
+      ];
 
-      // 3) Populate <thead>
-      const $hdr = $('#models-header-row');
-      fields.forEach(f => $hdr.append(`<th>${f.trim()}</th>`));
-
-      // 4) Build columns config
-      const columns = fields.map((f, idx) => ({
-        data: f,
-        title: f.trim(),
-        render: idx === fields.length - 1
-          ? d => d ? `<a href="${d}" target="_blank">📄</a>` : ''
-          : undefined
-      }));
-
-      // 5) Initialize DataTable
       const table = $('#models-table').DataTable({
-        data,
-        columns,
+        data, columns: cols,
         pageLength: 25,
-        order: [[ fields.indexOf('Year'), 'desc' ]],
+        order: [[3,'desc']],
         columnDefs: [
-          // center the numeric AP columns (likely cols 5–13)
-          { targets: Array.from({length:9}, (_, i) => i + 5), className: 'dt-center' }
+          { targets: [5,6,7,8,9,10,11,12,13], className:'dt-center' }
         ]
       });
 
-      // 6) Filter buttons for “Representation”
-      const repIdx = fields.indexOf('Representation');
-      $('button[data-filter]').on('click', function(){
-        const val = $(this).data('filter');
-        if (!val) {
-          table.search('').column(repIdx).search('').draw();
-        } else {
-          table.search('').column(repIdx)
-               .search(`^${val}$`, true, false)
+      // helper to clear active states & filters
+      function clearPrimary() {
+        $('#primary-filters button').removeClass('active');
+        table.column(1).search('').draw();
+        $('#secondary-filters .sensor-specific').hide();
+        $('#secondary-filters button').removeClass('active');
+        table.column(2).search('');
+      }
+      function clearSecondary() {
+        $('#secondary-filters button').removeClass('active');
+        table.column(2).search('').draw();
+      }
+
+      // primary sensor filtering
+      $('#primary-filters button').click(function(){
+        clearPrimary();
+        const sensor = $(this).data('filter');
+        $(this).addClass('active');
+        if (sensor !== 'All') {
+          table.column(1)
+               .search('^'+sensor+'$', true, false)
                .draw();
+          // show corresponding secondary row
+          $(`#secondary-filters .sensor-specific[data-sensor="${sensor}"]`).show();
         }
+      });
+
+      // secondary representation filtering (within chosen sensor)
+      $('#secondary-filters button').click(function(){
+        clearSecondary();
+        const rep = $(this).data('subfilter');
+        $(this).addClass('active');
+        table.column(2)
+             .search('^'+rep+'$', true, false)
+             .draw();
       });
     }
   });
