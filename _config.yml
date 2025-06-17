@@ -1,17 +1,8 @@
-# _config.yml
-
 title: 3D Object Detection Hub
-email: your-email@example.com
-description: >-
-  A comprehensive resource aggregating benchmarks, methods and results
-  from my master thesis and the broader 3D object detection community.
-baseurl: ""      # e.g. "/3d-hub" if hosted in a sub-folder
-url: ""          # e.g. "https://example.com"
-twitter_username: yourtwitter
-github_username: yourgithub
+baseurl: ""
+url: ""
 
 theme: minima
-
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
@@ -24,6 +15,6 @@ exclude:
   - vendor
 
 scholar:
-  style: apa
-  locale: en
-  bibliography: "references.bib"  # adjust path if your .bib lives elsewhere
+  style:        apa
+  locale:       en
+  bibliography: "references.bib"
