@@ -5,7 +5,7 @@ permalink: /3d-object-detection/
 ---
 
 
-# 3D-Object-Detection Models
+# 3D Object Detection Models
 
 <p>Filter by sensor (primary), then by representation (secondary). Sort by sensor → representation → year (ascending) → month (ascending), and search any column.</p>
 
@@ -57,9 +57,6 @@ permalink: /3d-object-detection/
   </ul>
 </div>
 
-<section class="site-content">
-
-</section>
 
 <script>
 $(document).ready(function(){
@@ -71,13 +68,13 @@ $(document).ready(function(){
       const lines = text.split(/\r?\n/);
       if (lines.length < 3) throw "Too few lines in CSV";
 
-      // Combine first two rows of header
+      // combine first two header rows
       const row1 = lines[0].split(',');
       const row2 = lines[1].split(',');
       const header = row1.map((h,i) => {
         const group = h.trim();
         const sub   = (row2[i]||'').trim();
-        return sub ? `${group} ${sub}`.trim() : group;
+        return sub ? `${group} ${sub}` : group;
       });
       const dataCsv = [ header.join(','), ...lines.slice(2) ].join('\n');
 
@@ -91,74 +88,100 @@ $(document).ready(function(){
           );
           const fields = results.meta.fields;
 
-          // populate header row
+          // build the table header
           const $hdr = $('#models-header-row');
           fields.forEach(f => $hdr.append(`<th>${f.trim()}</th>`));
 
-          // index lookups
+          // locate important column indexes
           const sensorIdx = fields.indexOf('Sensor');
           const repIdx    = fields.indexOf('Representation');
           const yearIdx   = fields.indexOf('Year');
           const monthIdx  = fields.indexOf('Month');
+          const codeIdx   = fields.indexOf('Code');
+          const paperIdx  = fields.indexOf('Paper');
 
-          // representation sort order
+          // custom sort order for Representation
           const repOrder = {
-            'Monocular':  1, 'Stereo':      2, 'Multiview':   3,
-            'Projection': 1, 'Point':       2, 'Voxel':       3, 'Point-Voxel': 4,
-            'Early-Fusion': 1, 'Mid-Fusion': 2, 'Intermediate': 3, 'Late-Fusion': 4
+            'Monocular':1,'Stereo':2,'Multiview':3,
+            'Projection':1,'Point':2,'Voxel':3,'Point-Voxel':4,
+            'Early-Fusion':1,'Mid-Fusion':2,'Intermediate':3,'Late-Fusion':4
           };
 
-          // build columns
-          const columns = fields.map((f, idx) => ({
-            data: f,
-            render: idx === fields.length - 1
-              ? d => d ? `<a href="${d.trim()}" target="_blank">Link</a>` : ''
-              : undefined
-          }));
+          // define columns
+          const columns = fields.map((f, idx) => {
+            // Code → ✓ / ✗
+            if (idx === codeIdx) {
+              return {
+                data: f,
+                className: 'dt-center',
+                render: function(data, type) {
+                  if (type === 'display') {
+                    const val = (''+data).trim().toLowerCase();
+                    return val === 'true' ? '✓' : '✗';
+                  }
+                  return data;
+                }
+              };
+            }
+            // Paper → “Link”
+            if (idx === paperIdx) {
+              return {
+                data: f,
+                render: function(data, type) {
+                  if (type === 'display' && data) {
+                    return `<a href="${data.trim()}" target="_blank">Link</a>`;
+                  }
+                  return '';
+                }
+              };
+            }
+            // all others default
+            return { data: f };
+          });
 
           // initialize DataTable
           const table = $('#models-table').DataTable({
-            data, columns,
+            data,
+            columns,
             order: [
-              [ sensorIdx, 'asc' ],   // Camera → LiDAR → Multi-Modal
-              [ repIdx,    'asc' ],   // per repOrder
-              [ yearIdx,   'asc' ],   // ascending year
-              [ monthIdx,  'asc' ]    // ascending month
+              [ sensorIdx, 'asc' ],
+              [ repIdx,    'asc' ],
+              [ yearIdx,   'asc' ],
+              [ monthIdx,  'asc' ]
             ],
             columnDefs: [
-              // custom sort for Representation
+              // sort Representation by repOrder
               {
                 targets: repIdx,
                 render: (data, type) =>
                   type === 'sort' ? (repOrder[data] || 99) : data
               },
-              // custom sort for Month
+              // sort Month chronologically
               {
                 targets: monthIdx,
                 render: (data, type) => {
                   if (type === 'sort' || type === 'type') {
                     const map = {
-                      Jan:1, Feb:2, Mar:3, Apr:4, May:5, Jun:6,
-                      Jul:7, Aug:8, Sep:9, Oct:10, Nov:11, Dec:12
+                      Jan:1,Feb:2,Mar:3,Apr:4,May:5,Jun:6,
+                      Jul:7,Aug:8,Sep:9,Oct:10,Nov:11,Dec:12
                     };
                     return map[data] || 99;
                   }
                   return data;
                 }
-              },
-              // center AP columns (5–13)
-              { targets: Array.from({length:9}, (_,i)=>i+5), className:'dt-center' }
+              }
             ]
           });
 
-          // helper: reset filters
+          // reset filters
           function resetAll() {
-            $('#sensor-filters button, #rep-filters button').removeClass('active');
+            $('#sensor-filters button, #rep-filters button')
+              .removeClass('active');
             $('.rep-group').hide();
             table.search('').columns().search('').draw();
           }
 
-          // primary sensor filtering
+          // primary sensor filters
           $('#sensor-filters button').click(function(){
             resetAll();
             const sensor = $(this).data('sensor');
@@ -171,7 +194,7 @@ $(document).ready(function(){
             }
           });
 
-          // secondary representation filtering
+          // secondary representation filters
           $('#rep-filters button').click(function(){
             $('#rep-filters button').removeClass('active');
             $(this).addClass('active');

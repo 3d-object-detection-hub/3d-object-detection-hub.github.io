@@ -1,4 +1,5 @@
 # _config.yml
+
 title: 3D Object Detection Hub
 email: your-email@example.com
 description: >-
@@ -9,13 +10,13 @@ url: ""          # e.g. "https://example.com"
 twitter_username: yourtwitter
 github_username: yourgithub
 
-# Build settings
 theme: minima
+
 plugins:
   - jekyll-feed
+  - jekyll-seo-tag
   - jekyll-scholar
 
-# Exclude build artifacts
 exclude:
   - Gemfile
   - Gemfile.lock
@@ -23,7 +24,6 @@ exclude:
   - vendor
 
 scholar:
-  style: apa        # or your preferred CSL style
-  locale: en        # language
-  bibliography: references.bib
-  # if you want to suppress only‐cited refs, use `{% bibliography --cited %}` in the page
+  style: apa
+  locale: en
+  bibliography: "references.bib"  # adjust path if your .bib lives elsewhere
