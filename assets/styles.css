@@ -29,8 +29,8 @@ body {
   line-height: 1.6;
   transition: background 0.3s, color 0.3s;
 
-  /* ↑ moderate bump ↑ */
-  font-size: 20px;       /* ~1.25rem */
+  /* 20px → 18px (–10%) */
+  font-size: 18px;       /* ~1.125rem */
 }
 
 a {
@@ -42,16 +42,16 @@ a:hover {
 }
 
 /* Headings */
-h1 { font-size: 3rem;      }  /* ~48px */
-h2 { font-size: 2.5rem;    }  /* ~40px */
-h3 { font-size: 2rem;      }  /* ~32px */
-h4 { font-size: 1.75rem;   }  /* ~28px */
-h5 { font-size: 1.5rem;    }  /* ~24px */
-h6 { font-size: 1.25rem;   }  /* ~20px */
+h1 { font-size: 2.7rem;      }  /* ~43px (3rem → 2.7rem) */
+h2 { font-size: 2.25rem;     }  /* ~36px (2.5rem → 2.25rem) */
+h3 { font-size: 1.8rem;      }  /* ~29px (2rem → 1.8rem) */
+h4 { font-size: 1.575rem;    }  /* ~25px (1.75rem → 1.575rem) */
+h5 { font-size: 1.35rem;     }  /* ~22px (1.5rem → 1.35rem) */
+h6 { font-size: 1.125rem;    }  /* ~18px (1.25rem → 1.125rem) */
 
 /* 3. Center and pad content */
 .site-content {
-  max-width: 1500px;
+  max-width: 1000px;
   margin: 2rem 0 2rem 8rem;
   padding: 0 1rem;
 }
@@ -65,7 +65,8 @@ h6 { font-size: 1.25rem;   }  /* ~20px */
 }
 .site-header .site-title a {
   color: var(--accent-color);
-  font-size: 2.25rem;    /* ~36px */
+  /* 2.25rem → 2.025rem */
+  font-size: 2.025rem;    /* ~32px */
   font-weight: bold;
 }
 nav ul {
@@ -78,7 +79,8 @@ nav ul li {
   margin-right: 1rem;
 }
 nav ul li a {
-  font-size: 1.25rem;    /* ~20px */
+  /* 1.25rem → 1.125rem */
+  font-size: 1.125rem;    /* ~18px */
 }
 
 /* datasets page tweaks */
@@ -92,7 +94,8 @@ nav ul li a {
   padding: 0.8rem 1.2rem;
   text-align: center;
   border-bottom: 1px solid rgba(255,255,255,0.1);
-  font-size: 1.2rem;     /* ~24px */
+  /* 1.2rem → 1.08rem */
+  font-size: 1.08rem;     /* ~17px */
 }
 .datasets th {
   background: var(--accent-color);
@@ -109,7 +112,8 @@ nav ul li a {
 }
 .post-list li a {
   color: var(--link-color);
-  font-size: 1.75rem;    /* ~28px */
+  /* 1.75rem → 1.575rem */
+  font-size: 1.575rem;    /* ~25px */
   font-weight: bold;
 }
 
@@ -120,7 +124,8 @@ blockquote {
   padding-left: 1rem;
   color: var(--text-color);
   opacity: 0.8;
-  font-size: 1.5rem;     /* ~24px */
+  /* 1.5rem → 1.35rem */
+  font-size: 1.35rem;     /* ~22px */
 }
 
 /* 7. Code blocks */
@@ -130,7 +135,8 @@ pre {
   padding: 1rem;
   overflow-x: auto;
   border-radius: 4px;
-  font-size: 1.25rem;    /* ~20px */
+  /* 1.25rem → 1.125rem */
+  font-size: 1.125rem;    /* ~18px */
 }
 
 /* 8. DataTables (Models page) */
@@ -153,7 +159,8 @@ table.dataTable tbody tr:nth-child(even) {
 }
 table.dataTable tbody td {
   color: var(--text-color);
-  font-size: 1.1rem;     /* ~18px */
+  /* 1.1rem → 0.99rem */
+  font-size: 0.99rem;     /* ~16px */
   padding: 0.4em 0.6em;
 }
 .dataTables_wrapper .dataTables_filter input,
@@ -174,7 +181,8 @@ table.dataTable tbody td {
 
 /* Compact & left-aligned Models table */
 #models-table.dataTable {
-  font-size: 1.1rem;     /* ~18px */
+  /* 1.1rem → 0.99rem */
+  font-size: 0.99rem;     /* ~16px */
   max-width: 100%;
   margin-left: 0;
   margin-right: auto;
@@ -183,7 +191,8 @@ table.dataTable tbody td {
 /* 9. References / Bibliography */
 .bibliography,
 .bibliography ol {
-  font-size: 1.4rem;     /* ~22px */
+  /* 1.4rem → 1.26rem */
+  font-size: 1.26rem;     /* ~20px */
   margin-left: 0;
   padding-left: 1.2rem;
   text-align: left;
@@ -195,10 +204,9 @@ table.dataTable tbody td {
 /* float the profile photo to the right of the About Me text */
 .about-me-photo {
   float: right;
-  width: 380px;            /* adjust to taste */
+  width: 380px;
   margin: 0 0 1.5rem 1.5rem;
 }
-
 .about-me-photo img {
   display: block;
   width: 100%;
