@@ -1,0 +1,8 @@
+Dataset,Year,# Cameras,# LiDARs,# Scenes,# Classes,Locations,Night,Rain,Annotated 3D BBoxes,Annotated Frames
+KITTI~\citep{geiger2013vision},2012,2,1,22,3,Germany,No,No,80k,15k
+ApolloScape~\citep{wang2019apolloscape},2018,2,2,73,27,China,Yes,No,70k,80k
+nuScenes~\citep{caesar2020nuscenes},2019,6,1,1000,23,"USA/ Singapore",Yes,Yes,1.4M,40k
+ArgoVerse~\citep{chang2019argoverse},2019,9,2,113,15,USA,Yes,Yes,993K,22k
+Waymo Open~\citep{waymo},2019,5,5,1150,4,USA,Yes,Yes,12M,230k
+Lyft Level 5~\citep{houston2021one},2019,7,3,366,9,USA,No,No,1.3M,46k
+H3D~\citep{patil2019h3d},2019,3,1,160,8,USA,No,No,1.1M,27k

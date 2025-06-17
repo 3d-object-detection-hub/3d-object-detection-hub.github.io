@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- _includes/head.html -->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>3D Object Detection | 3D Object Detection Hub</title>
+  <meta name="description" content="A comprehensive resource aggregating benchmarks, methods and results from my master thesis and the broader 3D object detection community.">
+
+  
+  
+
+  <!-- favicon -->
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+  <!-- custom dark-mode & layout overrides -->
+  <link rel="stylesheet" href="/assets/styles.css">
+
+  <!-- DataTables CSS -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+
+  <!-- your overrides -->
+  <link
+    rel="stylesheet"
+    href="/assets/datatables-overrides.css" />
+
+  <!-- PapaParse, jQuery & DataTables JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script
+    src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="site-content">
+      <h1 class="site-title">
+        <a href="/">3D Object Detection Hub</a>
+      </h1>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/datasets/">Datasets</a></li>
+          <li><a href="/3d-object-detection/">Models</a></li>
+          <li><a href="/references/">References</a></li>
+          <li><a href="/about/">About</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <h1 id="3d-object-detection-models">3D Object Detection Models</h1>
+
+<p>Filter by sensor (primary), then by representation (secondary). Sort by sensor → representation → year (ascending) → month (ascending), and search any column.</p>
+
+<!-- Primary sensor filters -->
+<p><strong>Filter by sensor:</strong></p>
+<div id="sensor-filters" style="margin:1rem 0;">
+  <button data-sensor="All">All Models</button>
+  <button data-sensor="Camera">Camera</button>
+  <button data-sensor="LiDAR">LiDAR</button>
+  <button data-sensor="Multi-Modal">Multi-Modal</button>
+</div>
+
+<!-- Secondary representation filters (hidden until a sensor is selected) -->
+<div id="rep-filters" style="margin-bottom:1rem;">
+  <div class="rep-group" data-sensor="Camera" style="display:none;">
+    <button data-rep="Monocular">Monocular</button>
+    <button data-rep="Stereo">Stereo</button>
+    <button data-rep="Multiview">Multiview</button>
+  </div>
+  <div class="rep-group" data-sensor="LiDAR" style="display:none;">
+    <button data-rep="Projection">Projection</button>
+    <button data-rep="Point">Point</button>
+    <button data-rep="Voxel">Voxel</button>
+    <button data-rep="Point-Voxel">Point-Voxel</button>
+  </div>
+  <div class="rep-group" data-sensor="Multi-Modal" style="display:none;">
+    <button data-rep="Early-Fusion">Early-Fusion</button>
+    <button data-rep="Mid-Fusion">Mid-Fusion</button>
+    <button data-rep="Intermediate">Intermediate</button>
+    <button data-rep="Late-Fusion">Late-Fusion</button>
+  </div>
+</div>
+
+<table id="models-table" class="display" style="width:100%">
+  <thead>
+    <tr id="models-header-row"></tr>
+  </thead>
+</table>
+
+<!-- Parameter descriptions -->
+<div class="table-description" style="margin-top:1.5em; font-size:0.9em; line-height:1.4;">
+  <strong>Parameter descriptions:</strong>
+  <ul>
+    <li><strong>AP2D / AP3D / APBEV:</strong> Easy (E), Moderate (M), Hard (H) on KITTI Car test</li>
+    <li><strong>NuScenes mAP:</strong> Mean AP on nuScenes validation</li>
+    <li><strong>NDS:</strong> nuScenes Detection Score</li>
+    <li><strong>Waymo L1 / L2 mAP:</strong> Level-1 / Level-2 mAP on Waymo</li>
+    <li><strong>Time (s):</strong> Inference time per frame (seconds)</li>
+  </ul>
+</div>
+
+<script>
+$(document).ready(function(){
+  const csvUrl = "/assets/data/models.csv";
+
+  fetch(csvUrl)
+    .then(r => r.text())
+    .then(text => {
+      const lines = text.split(/\r?\n/);
+      if (lines.length < 3) throw "Too few lines in CSV";
+
+      // combine first two header rows
+      const row1 = lines[0].split(',');
+      const row2 = lines[1].split(',');
+      const header = row1.map((h,i) => {
+        const group = h.trim();
+        const sub   = (row2[i]||'').trim();
+        return sub ? `${group} ${sub}` : group;
+      });
+      const dataCsv = [ header.join(','), ...lines.slice(2) ].join('\n');
+
+      Papa.parse(dataCsv, {
+        header: true,
+        dynamicTyping: true,
+        skipEmptyLines: true,
+        complete: function(results) {
+          const data = results.data.filter(r =>
+            r.Method && r.Method.toString().trim() !== 'Method'
+          );
+          const fields = results.meta.fields;
+
+          // build the table header
+          const $hdr = $('#models-header-row');
+          fields.forEach(f => $hdr.append(`<th>${f.trim()}</th>`));
+
+          // locate important column indexes
+          const sensorIdx = fields.indexOf('Sensor');
+          const repIdx    = fields.indexOf('Representation');
+          const yearIdx   = fields.indexOf('Year');
+          const monthIdx  = fields.indexOf('Month');
+          const codeIdx   = fields.indexOf('Code');
+          const paperIdx  = fields.indexOf('Paper');
+
+          // custom sort order for Representation
+          const repOrder = {
+            'Monocular':1,'Stereo':2,'Multiview':3,
+            'Projection':1,'Point':2,'Voxel':3,'Point-Voxel':4,
+            'Early-Fusion':1,'Mid-Fusion':2,'Intermediate':3,'Late-Fusion':4
+          };
+
+          // define columns
+          const columns = fields.map((f, idx) => {
+            // Code → ✓ / ✗
+            if (idx === codeIdx) {
+              return {
+                data: f,
+                className: 'dt-center',
+                render: function(data, type) {
+                  if (type === 'display') {
+                    const val = (''+data).trim().toLowerCase();
+                    return val === 'true' ? '✓' : '✗';
+                  }
+                  return data;
+                }
+              };
+            }
+            // Paper → “Link”
+            if (idx === paperIdx) {
+              return {
+                data: f,
+                render: function(data, type) {
+                  if (type === 'display' && data) {
+                    return `<a href="${data.trim()}" target="_blank">Link</a>`;
+                  }
+                  return '';
+                }
+              };
+            }
+            // all others default
+            return { data: f };
+          });
+
+          // initialize DataTable
+          const table = $('#models-table').DataTable({
+            data,
+            columns,
+            order: [
+              [ sensorIdx, 'asc' ],
+              [ repIdx,    'asc' ],
+              [ yearIdx,   'asc' ],
+              [ monthIdx,  'asc' ]
+            ],
+            columnDefs: [
+              // sort Representation by repOrder
+              {
+                targets: repIdx,
+                render: (data, type) =>
+                  type === 'sort' ? (repOrder[data] || 99) : data
+              },
+              // sort Month chronologically
+              {
+                targets: monthIdx,
+                render: (data, type) => {
+                  if (type === 'sort' || type === 'type') {
+                    const map = {
+                      Jan:1,Feb:2,Mar:3,Apr:4,May:5,Jun:6,
+                      Jul:7,Aug:8,Sep:9,Oct:10,Nov:11,Dec:12
+                    };
+                    return map[data] || 99;
+                  }
+                  return data;
+                }
+              }
+            ]
+          });
+
+          // reset filters
+          function resetAll() {
+            $('#sensor-filters button, #rep-filters button')
+              .removeClass('active');
+            $('.rep-group').hide();
+            table.search('').columns().search('').draw();
+          }
+
+          // primary sensor filters
+          $('#sensor-filters button').click(function(){
+            resetAll();
+            const sensor = $(this).data('sensor');
+            $(this).addClass('active');
+            if (sensor !== 'All') {
+              table.column(sensorIdx)
+                   .search('^'+sensor+'$', true, false)
+                   .draw();
+              $(`.rep-group[data-sensor="${sensor}"]`).show();
+            }
+          });
+
+          // secondary representation filters
+          $('#rep-filters button').click(function(){
+            $('#rep-filters button').removeClass('active');
+            $(this).addClass('active');
+            const rep = $(this).data('rep');
+            table.column(repIdx)
+                 .search('^'+rep+'$', true, false)
+                 .draw();
+          });
+        }
+      });
+    });
+});
+</script>
+
+
+  </main>
+
+  <footer class="site-footer site-content">
+    <p>&copy; 2025 3D Object Detection Hub</p>
+  </footer>
+</body>
+</html>
