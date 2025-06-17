@@ -4,7 +4,6 @@ title: 3D Object Detection
 permalink: /models/
 ---
 
-<section class="site-content">
 
 ## All 3D-Object-Detection Models
 
@@ -81,6 +80,8 @@ permalink: /models/
     <li><strong>Time (s):</strong> Inference time per frame (seconds)</li>
   </ul>
 </div>
+
+<section class="site-content">
 
 </section>
 

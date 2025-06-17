@@ -1,51 +1,213 @@
-/* Remove the old full-orange table background */
-table.dataTable {
-  background: none !important;
-}
+---
+layout: default
+title: 3D Object Detection
+permalink: /3d-object-detection/
+---
 
-/* Header row styling */
-table.dataTable thead {
-  background: var(--accent-color);
-}
-table.dataTable thead th {
-  color: var(--bg-color) !important;
-  font-weight: bold;
-  padding: 0.6em 0.8em;
-}
+<section class="site-content">
 
-/* Alternating body rows for contrast */
-table.dataTable tbody tr:nth-child(odd) {
-  background: var(--bg-color);
-}
-table.dataTable tbody tr:nth-child(even) {
-  background: var(--border-color);
-}
-table.dataTable tbody td {
-  color: var(--text-color);
-  padding: 0.4em 0.6em;
-}
+# 3D-Object-Detection Models
 
-/* Search box & pagination controls */
-.dataTables_wrapper .dataTables_filter input,
-.dataTables_wrapper .dataTables_length select {
-  background: var(--border-color);
-  color: var(--text-color);
-  border: 1px solid var(--accent-color);
-  padding: 0.2em 0.4em;
-}
+<p>Filter by sensor (primary), then by representation (secondary). Sort by sensor → representation → year (ascending) → month (ascending), and search any column.</p>
 
-/* Active filter button highlight */
-#sensor-filters button.active,
-#rep-filters button.active {
-  background: var(--accent-color);
-  color: var(--bg-color);
-  border-color: var(--accent-color);
-}
+<!-- Primary sensor filters -->
+<strong>Filter by sensor:</strong>
+<div id="sensor-filters" style="margin:1rem 0;">
+  <button data-sensor="All">All Models</button>
+  <button data-sensor="Camera">Camera</button>
+  <button data-sensor="LiDAR">LiDAR</button>
+  <button data-sensor="Multi-Modal">Multi-Modal</button>
+</div>
 
-/* Make the models table more compact and left-aligned */
-#models-table.dataTable {
-  font-size: 0.8em;       /* shrink all text inside the table */
-  max-width: 100%;        /* prevent it from stretching too wide */
-  margin-left: 0;          /* align flush with your .site-content left edge */
-  margin-right: auto;      /* keep it from filling 100% width */
-}
+<!-- Secondary representation filters (hidden until a sensor is selected) -->
+<div id="rep-filters" style="margin-bottom:1rem;">
+  <div class="rep-group" data-sensor="Camera" style="display:none;">
+    <button data-rep="Monocular">Monocular</button>
+    <button data-rep="Stereo">Stereo</button>
+    <button data-rep="Multiview">Multiview</button>
+  </div>
+  <div class="rep-group" data-sensor="LiDAR" style="display:none;">
+    <button data-rep="Projection">Projection</button>
+    <button data-rep="Point">Point</button>
+    <button data-rep="Voxel">Voxel</button>
+    <button data-rep="Point-Voxel">Point-Voxel</button>
+  </div>
+  <div class="rep-group" data-sensor="Multi-Modal" style="display:none;">
+    <button data-rep="Early-Fusion">Early-Fusion</button>
+    <button data-rep="Mid-Fusion">Mid-Fusion</button>
+    <button data-rep="Intermediate">Intermediate</button>
+    <button data-rep="Late-Fusion">Late-Fusion</button>
+  </div>
+</div>
+
+<table id="models-table" class="display" style="width:100%">
+  <thead>
+    <tr id="models-header-row"></tr>
+  </thead>
+</table>
+
+<!-- Parameter descriptions -->
+<div class="table-description" style="margin-top:1.5em; font-size:0.9em; line-height:1.4;">
+  <strong>Parameter descriptions:</strong>
+  <ul>
+    <li><strong>AP2D / AP3D / APBEV:</strong> Easy (E), Moderate (M), Hard (H) on KITTI Car test</li>
+    <li><strong>NuScenes mAP:</strong> Mean AP on nuScenes validation</li>
+    <li><strong>NDS:</strong> nuScenes Detection Score</li>
+    <li><strong>Waymo L1 / L2 mAP:</strong> Level-1 / Level-2 mAP on Waymo</li>
+    <li><strong>Time (s):</strong> Inference time per frame (seconds)</li>
+  </ul>
+</div>
+
+</section>
+
+<script>
+$(document).ready(function(){
+  const csvUrl = "{{ '/assets/data/models.csv' | relative_url }}";
+
+  fetch(csvUrl)
+    .then(r => r.text())
+    .then(text => {
+      const lines = text.split(/\r?\n/);
+      if (lines.length < 3) throw "Too few lines in CSV";
+
+      // combine first two header rows
+      const row1 = lines[0].split(',');
+      const row2 = lines[1].split(',');
+      const header = row1.map((h,i) => {
+        const group = h.trim();
+        const sub   = (row2[i]||'').trim();
+        return sub ? `${group} ${sub}` : group;
+      });
+      const dataCsv = [ header.join(','), ...lines.slice(2) ].join('\n');
+
+      Papa.parse(dataCsv, {
+        header: true,
+        dynamicTyping: true,
+        skipEmptyLines: true,
+        complete: function(results) {
+          const data = results.data.filter(r =>
+            r.Method && r.Method.toString().trim() !== 'Method'
+          );
+          const fields = results.meta.fields;
+
+          // build the table header
+          const $hdr = $('#models-header-row');
+          fields.forEach(f => $hdr.append(`<th>${f.trim()}</th>`));
+
+          // locate important column indexes
+          const sensorIdx = fields.indexOf('Sensor');
+          const repIdx    = fields.indexOf('Representation');
+          const yearIdx   = fields.indexOf('Year');
+          const monthIdx  = fields.indexOf('Month');
+          const codeIdx   = fields.indexOf('Code');
+          const paperIdx  = fields.indexOf('Paper');
+
+          // custom sort order for Representation
+          const repOrder = {
+            'Monocular':1,'Stereo':2,'Multiview':3,
+            'Projection':1,'Point':2,'Voxel':3,'Point-Voxel':4,
+            'Early-Fusion':1,'Mid-Fusion':2,'Intermediate':3,'Late-Fusion':4
+          };
+
+          // define columns
+          const columns = fields.map((f, idx) => {
+            // Code → checkbox
+            if (idx === codeIdx) {
+              return {
+                data: f,
+                className: 'dt-center',
+                render: function(data, type) {
+                  if (type === 'display') {
+                    const val = (''+data).trim().toLowerCase();
+                    const checked = (val === 'true');
+                    return `<input type="checkbox" disabled ${checked ? 'checked' : ''}>`;
+                  }
+                  return data;
+                }
+              };
+            }
+            // Paper → “Link”
+            if (idx === paperIdx) {
+              return {
+                data: f,
+                render: function(data, type) {
+                  if (type === 'display' && data) {
+                    return `<a href="${data.trim()}" target="_blank">Link</a>`;
+                  }
+                  return '';
+                }
+              };
+            }
+            // all others default
+            return { data: f };
+          });
+
+          // initialize DataTable
+          const table = $('#models-table').DataTable({
+            data,
+            columns,
+            order: [
+              [ sensorIdx, 'asc' ],
+              [ repIdx,    'asc' ],
+              [ yearIdx,   'asc' ],
+              [ monthIdx,  'asc' ]
+            ],
+            columnDefs: [
+              // sort Representation by repOrder
+              {
+                targets: repIdx,
+                render: (data, type) =>
+                  type === 'sort' ? (repOrder[data] || 99) : data
+              },
+              // sort Month chronologically
+              {
+                targets: monthIdx,
+                render: (data, type) => {
+                  if (type === 'sort' || type === 'type') {
+                    const map = {
+                      Jan:1,Feb:2,Mar:3,Apr:4,May:5,Jun:6,
+                      Jul:7,Aug:8,Sep:9,Oct:10,Nov:11,Dec:12
+                    };
+                    return map[data] || 99;
+                  }
+                  return data;
+                }
+              }
+            ]
+          });
+
+          // reset filters
+          function resetAll() {
+            $('#sensor-filters button, #rep-filters button')
+              .removeClass('active');
+            $('.rep-group').hide();
+            table.search('').columns().search('').draw();
+          }
+
+          // primary sensor filters
+          $('#sensor-filters button').click(function(){
+            resetAll();
+            const sensor = $(this).data('sensor');
+            $(this).addClass('active');
+            if (sensor !== 'All') {
+              table.column(sensorIdx)
+                   .search('^'+sensor+'$', true, false)
+                   .draw();
+              $(`.rep-group[data-sensor="${sensor}"]`).show();
+            }
+          });
+
+          // secondary representation filters
+          $('#rep-filters button').click(function(){
+            $('#rep-filters button').removeClass('active');
+            $(this).addClass('active');
+            const rep = $(this).data('rep');
+            table.column(repIdx)
+                 .search('^'+rep+'$', true, false)
+                 .draw();
+          });
+        }
+      });
+    });
+});
+</script>

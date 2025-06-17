@@ -4,8 +4,6 @@ title: Datasets
 permalink: /datasets/
 ---
 
-<section class="site-content">
-
 # Datasets
 
 A quick summary of the major 3D-object detection datasets.
@@ -102,5 +100,8 @@ A quick summary of the major 3D-object detection datasets.
     </tr>
   </tbody>
 </table>
+
+
+<section class="site-content">
 
 </section>

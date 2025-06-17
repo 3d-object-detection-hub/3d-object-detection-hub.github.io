@@ -4,9 +4,8 @@ title: 3D Object Detection
 permalink: /3d-object-detection/
 ---
 
-<section class="site-content">
 
-# All 3D-Object-Detection Models
+# 3D-Object-Detection Models
 
 <p>Filter by sensor (primary), then by representation (secondary). Sort by sensor → representation → year (ascending) → month (ascending), and search any column.</p>
 
@@ -57,6 +56,8 @@ permalink: /3d-object-detection/
     <li><strong>Time (s):</strong> Inference time per frame (seconds)</li>
   </ul>
 </div>
+
+<section class="site-content">
 
 </section>
 
