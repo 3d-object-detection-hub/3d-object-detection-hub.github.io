@@ -8,7 +8,7 @@ permalink: /3d-object-detection/
 
 # All 3D-Object-Detection Models
 
-<p>Filter by sensor (primary), then by representation (secondary). Sort by sensor → representation → year, and search any column.</p>
+<p>Filter by sensor (primary), then by representation (secondary). Sort by sensor → representation → year (ascending) → month (ascending), and search any column.</p>
 
 <!-- Primary sensor filters -->
 <strong>Filter by sensor:</strong>
@@ -70,7 +70,7 @@ $(document).ready(function(){
       const lines = text.split(/\r?\n/);
       if (lines.length < 3) throw "Too few lines in CSV";
 
-      // Build combined header
+      // Combine first two rows of header
       const row1 = lines[0].split(',');
       const row2 = lines[1].split(',');
       const header = row1.map((h,i) => {
@@ -90,23 +90,24 @@ $(document).ready(function(){
           );
           const fields = results.meta.fields;
 
-          // populate THEAD
+          // populate header row
           const $hdr = $('#models-header-row');
           fields.forEach(f => $hdr.append(`<th>${f.trim()}</th>`));
 
-          // mapping for rep-order
-          const repOrder = {
-            'Monocular': 1, 'Stereo': 2, 'Multiview': 3,
-            'Projection': 1, 'Point': 2, 'Voxel': 3, 'Point-Voxel': 4,
-            'Early-Fusion': 1, 'Mid-Fusion': 2, 'Intermediate': 3, 'Late-Fusion': 4
-          };
-
-          // find column indexes
+          // index lookups
           const sensorIdx = fields.indexOf('Sensor');
           const repIdx    = fields.indexOf('Representation');
           const yearIdx   = fields.indexOf('Year');
+          const monthIdx  = fields.indexOf('Month');
 
-          // build column defs
+          // representation sort order
+          const repOrder = {
+            'Monocular':  1, 'Stereo':      2, 'Multiview':   3,
+            'Projection': 1, 'Point':       2, 'Voxel':       3, 'Point-Voxel': 4,
+            'Early-Fusion': 1, 'Mid-Fusion': 2, 'Intermediate': 3, 'Late-Fusion': 4
+          };
+
+          // build columns
           const columns = fields.map((f, idx) => ({
             data: f,
             render: idx === fields.length - 1
@@ -114,30 +115,42 @@ $(document).ready(function(){
               : undefined
           }));
 
+          // initialize DataTable
           const table = $('#models-table').DataTable({
             data, columns,
             order: [
-              [ sensorIdx, 'asc' ],
-              [ repIdx,    'asc' ],
-              [ yearIdx,   'desc']
+              [ sensorIdx, 'asc' ],   // Camera → LiDAR → Multi-Modal
+              [ repIdx,    'asc' ],   // per repOrder
+              [ yearIdx,   'asc' ],   // ascending year
+              [ monthIdx,  'asc' ]    // ascending month
             ],
             columnDefs: [
               // custom sort for Representation
               {
                 targets: repIdx,
-                render: function(data, type) {
-                  if (type === 'sort') {
-                    return repOrder[data] || 99;
+                render: (data, type) =>
+                  type === 'sort' ? (repOrder[data] || 99) : data
+              },
+              // custom sort for Month
+              {
+                targets: monthIdx,
+                render: (data, type) => {
+                  if (type === 'sort' || type === 'type') {
+                    const map = {
+                      Jan:1, Feb:2, Mar:3, Apr:4, May:5, Jun:6,
+                      Jul:7, Aug:8, Sep:9, Oct:10, Nov:11, Dec:12
+                    };
+                    return map[data] || 99;
                   }
                   return data;
                 }
               },
               // center AP columns (5–13)
-              { targets: Array.from({length:9},(_,i)=>i+5), className:'dt-center' }
+              { targets: Array.from({length:9}, (_,i)=>i+5), className:'dt-center' }
             ]
           });
 
-          // reset all filters helper
+          // helper: reset filters
           function resetAll() {
             $('#sensor-filters button, #rep-filters button').removeClass('active');
             $('.rep-group').hide();

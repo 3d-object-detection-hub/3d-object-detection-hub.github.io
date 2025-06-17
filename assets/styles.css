@@ -38,7 +38,8 @@ a:hover { text-decoration: underline; }
 /* 3. Center and pad content */
 .site-content {
   max-width: 800px;
-  margin: 2rem auto;
+  /* reduced left margin for all pages */
+  margin: 2rem 0 2rem 8rem;
   padding: 0 1rem;
 }
 
@@ -54,14 +55,22 @@ a:hover { text-decoration: underline; }
   font-size: 1.75rem;
   font-weight: bold;
 }
-nav.site-nav a {
+
+/* Make top nav list horizontal */
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+nav ul li {
+  display: inline-block;
   margin-right: 1rem;
-  font-weight: 500;
 }
 
 /* datasets page tweaks */
 .datasets {
   width: 100%;
+  margin: 2rem 0 2rem 0rem;
   border-collapse: collapse;
   margin-top: 1.5rem;
 }

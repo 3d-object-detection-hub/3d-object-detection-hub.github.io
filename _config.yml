@@ -13,6 +13,7 @@ github_username: yourgithub
 theme: minima
 plugins:
   - jekyll-feed
+  - jekyll-scholar
 
 # Exclude build artifacts
 exclude:
@@ -20,3 +21,9 @@ exclude:
   - Gemfile.lock
   - node_modules
   - vendor
+
+scholar:
+  style: apa        # or your preferred CSL style
+  locale: en        # language
+  bibliography: references.bib
+  # if you want to suppress only‐cited refs, use `{% bibliography --cited %}` in the page

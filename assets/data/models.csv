@@ -27,7 +27,7 @@ TransFusion,Multi-Modal,Intermediate,2022,,,,,,,,,,,0.689 0.717,,,,,FALSE,,https
 BEVFusion,Multi-Modal,Intermediate,2022,,,,,,,,,,,,,,,,FALSE,,https://arxiv.org/abs/2205.13542
 FUTR3D,Multi-Modal,Intermediate,2022,,,,,,,,,,,0.694 0.721,,,,,FALSE,,
 VF-Fusion,Multi-Modal,Intermediate,2022,,,,,,,,,,,,,,,,FALSE,,
-AVOD-FPn,Multi-Modal,Intermediate,,,,,,,,,,,,,,,,,FALSE,,
+AVOD-FPN,Multi-Modal,Intermediate,,,,,,,,,,,,,,,,,FALSE,,
 DeepFusion,Multi-Modal,Intermediate,2022,,,,,,,,,,,,,,,,FALSE,,
 MSMDFusion,Multi-Modal,Intermediate,2022,,,,,,,,,,,,,,,,FALSE,,
 CAT-Det,Multi-Modal,Intermediate,2022,,95.97,94.71,92.07,89.87,81.32,76.68,92.59,90.07,85.82,,,,,0.3,FALSE,GPU @ 2.5 Ghz (Python + C/C++),
@@ -54,7 +54,7 @@ BEVDetNet,LiDAR,Projection,2021,Apr,-,-,-,-,-,-,-,-,-,-,-,-,-,-,FALSE,-,https://
 BirdNet+,LiDAR,Projection,2021,Nov,92.61,86.73,81.8,76.15,64.04,59.79,87.43,81.85,75.36,-,-,-,-,0.11,TRUE,Titan Xp (Caffe),https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9628006
 MGTANet,LiDAR,Projection,2022,Dec,-,-,-,-,-,-,-,-,-,67.5,72.7,-,-,-,TRUE,-,https://arxiv.org/abs/2212.00442
 GPA3D,LiDAR,Projection,2023,Aug,-,-,-,-,-,-,-,-,-,-,-,-,-,-,TRUE,-,https://arxiv.org/abs/2308.08140
-Vote3D ,LiDAR,Vocel,2015,Jul,-,-,-,-,-,-,-,-,-,-,-,-,-,-,FALSE,-,https://www.roboticsproceedings.org/rss11/p35.pdf
+Vote3D ,LiDAR,Voxel,2015,Jul,-,-,-,-,-,-,-,-,-,-,-,-,-,-,FALSE,-,https://www.roboticsproceedings.org/rss11/p35.pdf
 Vote3Deep,LiDAR,Voxel,2016,Sep,78.95,70.3,63.12,-,-,-,-,-,-,-,-,-,-,1.5,TRUE,4 cores @ 2.5 Ghz (C/C++),https://arxiv.org/abs/1609.06666
 3D FCN,LiDAR,Voxel,2016,Nov,54.38,45.94,40.48,-,-,-,-,-,-,-,-,-,-,5,TRUE,1 core @ 2.5 Ghz (C/C++),https://arxiv.org/abs/1611.08069
 VoxelNet,LiDAR,Voxel,2017,Nov,-,-,-,77.82,64.17,57.51,87.95,78.39,71.29,-,-,-,-,-,FALSE,-,https://arxiv.org/abs/1711.06396
@@ -360,4 +360,4 @@ DPL,Camera,Monocular,2024,Nov,-,-,-,24.19,16.67,13.83,33.16,22.12,18.74,-,-,-,-,
 OVM3D,Camera,Monocular,2024,Nov,-,-,-,-,-,-,-,-,-,-,-,-,-,-,TRUE,-,https://arxiv.org/pdf/2411.15657
 MonoDSSM,Camera,Monocular,2024,Dec,93.96,88.31,76.15,21.47,14.55,11.78,28.29,19.59,16.34,-,-,-,-,0.02,FALSE,1 core @ 2.5 Ghz (Python + C/C++),https://openaccess.thecvf.com/content/ACCV2024/papers/Vu_MonoDSSMs_Efficient_Monocular_3D_Object_Detection_with_Depth-Aware_State_Space_ACCV_2024_paper.pdf
 MonoDINO-DETR,Camera,Monocular,2025,Feb,-,-,-,-,-,-,-,-,-,-,-,-,-,-,TRUE,-,https://arxiv.org/abs/2502.00315
-Pseudo-LiDAR2D,Camera,Monocular,2025,Fev,,,,,,,,,,,,,,,FALSE,,https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10918939&tag=1
+Pseudo-LiDAR2D,Camera,Monocular,2025,Fev,-,-,-,-,-,-,-,-,-,-,-,-,-,-,FALSE,-,https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10918939&tag=1
