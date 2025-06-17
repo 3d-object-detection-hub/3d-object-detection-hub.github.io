@@ -19,7 +19,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.1'     # ← match your local `ruby -v`
+          ruby-version: '3.2'     # ← match your local `ruby -v`
           bundler-cache: true     # caches ~/.bundle between runs
 
       # 3. Install dependencies from your Gemfile
