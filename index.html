@@ -55,48 +55,120 @@
   </header>
 
   <main class="site-content">
-    <h2 id="welcome-to-the-3d-object-detection-hub">Welcome to the <strong>3D Object Detection Hub</strong></h2>
+    <h1 id="-welcome-to-the-3d-object-detection-hub">🎉 Welcome to the <strong>3D Object Detection Hub</strong></h1>
 
-<p>Your gateway to state-of-the-art 3D perception research. Here you’ll find:</p>
+<p>This site was born out of a <strong>Master’s thesis</strong> effort to centralize and compare <strong>every major 3D-OD method</strong> using multiple sensor modalities. While many prior surveys focus on one sensor or era of work, here you’ll find:</p>
+
+<blockquote>
+  <p><strong>A unified, searchable, and maintainable catalog</strong><br />
+covering camera-only, LiDAR-only, and multi-modal fusion approaches—all organized by <strong>sensor</strong> and <strong>representation</strong>.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="-navigate">🔗 Navigate</h2>
+
+<ul>
+  <li>
+    <p>📊 <a href="/datasets/"><strong>Datasets</strong></a><br />
+A concise table of the leading benchmarks (KITTI, nuScenes, Waymo, …) and their key properties.</p>
+  </li>
+  <li>
+    <p>🛠️ <a href="/3d-object-detection/"><strong>Models</strong></a><br />
+A comprehensive database of published 3D-OD methods.<br />
+• <strong>Filter</strong> by sensor → representation<br />
+• <strong>Search</strong> for a method by name<br />
+• <strong>Sort</strong> by year, mAP, runtime, etc.</p>
+  </li>
+  <li>
+    <p>📚 <a href="/references/"><strong>References</strong></a><br />
+The full bibliography of every paper, library, and dataset used to create this work.</p>
+  </li>
+  <li>
+    <p>👤 <a href="/about/"><strong>About</strong></a><br />
+Background on the site, the underlying thesis, and contact details.</p>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="-why-this-hub">📖 Why This Hub?</h2>
+
+<p>Although 3D object detection has exploded over the last decade, existing resources often:</p>
+
+<ul>
+  <li>✔️ Cover only <strong>one modality</strong> (e.g. camera-only or LiDAR-only).</li>
+  <li>✔️ Become <strong>outdated</strong> as new methods appear.</li>
+  <li>✔️ Lack a <strong>unified taxonomy</strong> across sensors &amp; representations.</li>
+</ul>
+
+<p><strong>This Hub</strong> aggregates:</p>
+
+<ol>
+  <li><strong>Multi-sensor methods</strong> (monocular, stereo, multiview, point-cloud, voxels, fusion…).</li>
+  <li><strong>Performance comparisons</strong> across KITTI, nuScenes &amp; Waymo.</li>
+  <li><strong>Runtime metrics</strong> to inform real-world feasibility.</li>
+  <li><strong>Interactive filtering</strong>, searching, and sorting.</li>
+</ol>
+
+<hr />
+
+<h2 id="-what-youll-find">🚀 What You’ll Find</h2>
 
 <h3 id="-datasets--benchmarks">📚 Datasets &amp; Benchmarks</h3>
 <ul>
-  <li><strong>KITTI</strong> (7,481 frames)</li>
-  <li><strong>nuScenes</strong> (40k samples)</li>
-  <li><strong>Waymo Open</strong> (1150 segments)</li>
+  <li><strong>KITTI</strong> – The foundational benchmark (2 cameras + 1 LiDAR) with 15 000 annotated frames.</li>
+  <li><strong>nuScenes</strong> – Multi-modal data from 6 cameras, 1 LiDAR, 5 radars over 1 000 scenes.</li>
+  <li><strong>Waymo Open</strong> – High-density 5 × LiDAR + 5 × camera over 1 150 segments and 230 000+ frames.<br />
+…and more (ApolloScape, Argoverse, Lyft Level 5, H3D).</li>
 </ul>
 
 <h3 id="️-methods--models">🛠️ Methods &amp; Models</h3>
 <ul>
-  <li><strong>Mono3D</strong> – single-image 3D detection</li>
-  <li><strong>SMOKE</strong> – sequential monocular detector</li>
-  <li><strong>DD3D</strong> – distribution-driven approaches</li>
-  <li><strong>MonoFlex</strong> – flexible monocular pipelines</li>
-  <li><strong>Voxel Graph Network</strong> – <em>my thesis model</em> Test</li>
+  <li><strong>Monocular</strong> (Mono3D, SMOKE, DD3D, MonoFlex, …)</li>
+  <li><strong>Stereo &amp; Multiview</strong> (LIGA-Stereo, Pseudo-BEV, …)</li>
+  <li><strong>LiDAR-only</strong> (PointPillars, PV-RCNN, SECOND, …)</li>
+  <li><strong>Multi-Modal Fusion</strong> (MVXNet, CLOCS, FUTR3D, …)</li>
 </ul>
 
-<h3 id="explore">Explore</h3>
-<ul>
-  <li><a href="/models/">Models Database</a> ← click here to browse all the published 3D-OD models</li>
-</ul>
+<p>Each entry shows <strong>accuracy</strong>, <strong>inference time</strong>, <strong>paper link</strong>, and <strong>code availability</strong>.</p>
 
-<h3 id="-results--visuals">📈 Results &amp; Visuals</h3>
-<ul>
-  <li>Leaderboards, PR curves, AP tables</li>
-  <li>Interactive demos &amp; point-cloud viewers</li>
-</ul>
+<hr />
+
+<h2 id="-how-to-use">🔍 How to Use</h2>
+
+<ol>
+  <li><strong>Browse</strong> the <a href="/datasets/">Datasets</a> page to choose your benchmark.</li>
+  <li><strong>Visit</strong> <a href="/3d-object-detection/">Models</a> to filter by sensor &amp; representation.</li>
+  <li><strong>Search</strong> or <strong>sort</strong> by <strong>mAP</strong>, <strong>runtime</strong>, <strong>year</strong>, or <strong>code availability</strong>.</li>
+  <li><strong>Click “Link”</strong> to read the original paper—code links when available.</li>
+  <li><strong>Cite</strong> via the <a href="/references/">References</a> section when you publish your own results! 📑</li>
+</ol>
+
+<hr />
+
+<h2 id="️-about--contact">🙋‍♂️ About &amp; Contact</h2>
+
+<p>For background on the thesis, site construction, and to reach out, visit 👉 <a href="/about/">About</a> or drop me a line at ✉️ <a href="mailto:miguel.heitor.valverde@tecnico.ulisboa.pt">miguel.heitor.valverde@tecnico.ulisboa.pt</a>.</p>
+
+<hr />
 
 <blockquote>
-  <p><strong>Thesis Highlight</strong><br />
-In <em>“Multi-modal Voxel Graph Network for 3D Object Detection,”</em> I introduce a graph-based fusion of LiDAR voxels and RGB features via message-passing, achieving <strong>+5 % mAP</strong> on KITTI and strong generalization to nuScenes &amp; Waymo.</p>
+  <p><strong>Keep Exploring!</strong><br />
+Whether you’re benchmarking a new sensor, prototyping a fusion network, or writing the next SOTA paper, the <strong>3D Object Detection Hub</strong> is here to accelerate your research. 🔬🚗</p>
 </blockquote>
 
-<h3 id="-getting-started">🚀 Getting Started</h3>
-<ol>
-  <li><strong>Clone the repo</strong><br />
-```bash
-git clone https://github.com/yourgithub/3d-object-detection-hub.git</li>
-</ol>
+<hr />
+
+<h2 id="-future-work">🔮 Future Work</h2>
+
+<ul>
+  <li>🔄 Continuously update with <strong>new methods</strong> &amp; <strong>datasets</strong>.</li>
+  <li>⚙️ Introduce a <strong>Sensor Guide</strong>: strengths &amp; trade-offs of cameras, LiDARs, radars.</li>
+  <li>📊 Expand to <strong>2D OD</strong> and <strong>Depth Estimation</strong> surveys.</li>
+  <li>📝 Include references for a paper to be published, detailing how this study was carried out and its methodology.</li>
+</ul>
+
 
   </main>
 
