@@ -1,38 +1,31 @@
-name: Build & Deploy Jekyll site
+name: build & deploy site
 
-# whenever you push to main (or adjust to your default branch)
 on:
   push:
-    branches:
-      - master
+    branches: [ master ]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      # 1. Check out your code
-      - name: Checkout repo
-        uses: actions/checkout@v3
+      # 1) Check out your repo
+      - uses: actions/checkout@v3
 
-      # 2. Set up the exact Ruby version you use locally
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+      # 2) Set up Ruby & install gems
+      - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2'     # ← match your local `ruby -v`
-          bundler-cache: true     # caches ~/.bundle between runs
+          ruby-version: 3.2.8        # match your local ruby
+          bundler-cache: true
 
-      # 3. Install dependencies from your Gemfile
-      - name: Install gems
+      # 3) Build the Jekyll site
+      - name: Bundle install & build
         run: |
-          gem install bundler
-          bundle install --jobs 4 --retry 3
+          bundle exec jekyll build \
+            --config _config.yml \
+            --future       # if you use `site.time`
 
-      # 4. Build the site with *your* plugins (including jekyll-scholar)
-      - name: Build site with Jekyll
-        run: bundle exec jekyll build --verbose
-
-      # 5. Deploy to GitHub Pages
+      # 4) Deploy to gh-pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
