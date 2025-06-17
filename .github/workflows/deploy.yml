@@ -1,35 +1,27 @@
-name: Build & Deploy Site
+# .github/workflows/deploy.yml
+name: build & deploy site
 
 on:
   push:
-    branches: [ master ]     # or `master` if your default branch is named that
-  workflow_dispatch:
+    branches: [ master ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      # 1) Check out repo
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      # 2) Set up Ruby & cache your gems
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.2.8        # match your local Ruby
+          ruby-version: 3.2.8
           bundler-cache: true
 
-      # 3) Install & build with your Gemfile (so jekyll-scholar loads)
-      - name: Install gems & build site
-        run: |
-          bundle install
-          bundle exec jekyll build \
-            --config _config.yml \
-            --future           # only if you use `site.time`
+      - name: Build with Jekyll
+        run: bundle exec jekyll build --future
 
-      # 4) Push the resulting _site/ to gh-pages
-      - name: Deploy to GitHub Pages
+      - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token:    ${{ secrets.GITHUB_TOKEN }}
-          publish_dir:     ./_site
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site
+          publish_branch: gh-pages      # ← push here

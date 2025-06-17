@@ -74,16 +74,13 @@ permalink: /models/
     <li><strong>AP2D:</strong> 2D Average Precision on KITTI Car test (Easy, Moderate, Hard)</li>
     <li><strong>AP3D:</strong> 3D Average Precision on KITTI Car test (Easy, Moderate, Hard)</li>
     <li><strong>APBEV:</strong> Bird’s-Eye-View Average Precision on KITTI Car test (Easy, Moderate, Hard)</li>
-    <li><strong>NuScenes mAP:</strong> Mean Average Precision on nuScenes validation</li>
-    <li><strong>NDS:</strong> nuScenes Detection Score</li>
-    <li><strong>Waymo L1 / L2:</strong> Level-1 / Level-2 mAP on Waymo Open Dataset</li>
-    <li><strong>Time (s):</strong> Inference time per frame (seconds)</li>
+    <li><strong>NuScenes mAP:</strong> Mean Average Precision on nuScenes validation set</li>
+    <li><strong>NuScenes NDS:</strong> nuScenes Detection Score on validation set</li>
+    <li><strong>Waymo L1 / L2:</strong> Level-1 / Level-2 mAP on Waymo Open Dataset validation set</li>
+    <li><strong>Time (s):</strong> Inference time per frame (seconds) on the KITTI benchmark</li>
   </ul>
 </div>
 
-<section class="site-content">
-
-</section>
 
 <script>
 $(function(){

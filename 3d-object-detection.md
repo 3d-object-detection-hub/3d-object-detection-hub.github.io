@@ -7,6 +7,8 @@ permalink: /3d-object-detection/
 
 # 3D Object Detection Models
 
+<p>This page presents a comprehensive survey of 3D-object-detection methods, organized first by sensor modality and then by representation. You can search for any method and instantly compare its accuracy and inference speed on the KITTI, nuScenes, and Waymo benchmarks. Each entry includes a link to the original paper and indicates whether the code is publicly available. </p>
+
 <p>Filter by sensor (primary), then by representation (secondary). Sort by sensor → representation → year (ascending) → month (ascending), and search any column.</p>
 
 <!-- Primary sensor filters -->
@@ -49,11 +51,13 @@ permalink: /3d-object-detection/
 <div class="table-description" style="margin-top:1.5em; font-size:0.9em; line-height:1.4;">
   <strong>Parameter descriptions:</strong>
   <ul>
-    <li><strong>AP2D / AP3D / APBEV:</strong> Easy (E), Moderate (M), Hard (H) on KITTI Car test</li>
-    <li><strong>NuScenes mAP:</strong> Mean AP on nuScenes validation</li>
-    <li><strong>NDS:</strong> nuScenes Detection Score</li>
-    <li><strong>Waymo L1 / L2 mAP:</strong> Level-1 / Level-2 mAP on Waymo</li>
-    <li><strong>Time (s):</strong> Inference time per frame (seconds)</li>
+    <li><strong>AP2D:</strong> 2D Average Precision on KITTI Car test (Easy, Moderate, Hard)</li>
+    <li><strong>AP3D:</strong> 3D Average Precision on KITTI Car test (Easy, Moderate, Hard)</li>
+    <li><strong>APBEV:</strong> Bird’s-Eye-View Average Precision on KITTI Car test (Easy, Moderate, Hard)</li>
+    <li><strong>NuScenes mAP:</strong> Mean Average Precision on nuScenes validation set</li>
+    <li><strong>NuScenes NDS:</strong> nuScenes Detection Score on validation set</li>
+    <li><strong>Waymo L1 / L2:</strong> Level-1 / Level-2 mAP on Waymo Open Dataset validation set</li>
+    <li><strong>Time (s):</strong> Inference time per frame (seconds) on the KITTI benchmark</li>
   </ul>
 </div>
 
