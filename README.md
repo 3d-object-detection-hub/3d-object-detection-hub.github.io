@@ -33,7 +33,7 @@ Open an issue to discuss new features or data.
 
 Send a pull request with your changes (new methods, datasets, bug fixes).
 
-Ensure your additions follow the existing CSV/data format.
+Ensure your additions follow the existing data format.
 
 📜 License
 This project is licensed under the GPL3.0 License.
