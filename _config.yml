@@ -1,8 +1,9 @@
 title: 3D Object Detection Hub
-baseurl: ""
-url: ""
+baseurl: ""   # keep empty if serving from user/org pages root or gh-pages root
+url: "https://3d-object-detection-hub.github.io"
 
 theme: minima
+
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
@@ -15,7 +16,7 @@ exclude:
   - vendor
 
 scholar:
-  style:        apa
-  locale:       en
-  bibliography: "references.bib"
-  
+  style: apa
+  locale: en
+  source: _bibliography
+  bibliography: references.bib
