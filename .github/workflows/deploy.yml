@@ -1,36 +1,43 @@
-# .github/workflows/deploy.yml
 name: build & deploy site
 
 on:
   push:
-    branches:
-      - master
+    branches: [ master ]
+  workflow_dispatch:
+
+permissions:
+  contents: write  # needed by peaceiris/actions-gh-pages
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # 1. Check out your repo
+      # 1) Check out
       - uses: actions/checkout@v4
 
-      # 2. Set up Ruby & cache gems
+      # 2) Ruby + Bundler cache
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.2.8
+          ruby-version: '3.2.8'
           bundler-cache: true
 
-      # 3. Install your Gemfile gems (including jekyll-scholar)
+      # 3) Install deps from Gemfile
       - name: Install dependencies
         run: bundle install --jobs 4 --retry 3
 
-      # 4. Build with Jekyll (loads jekyll-scholar!)
+      # 4) Build site (includes jekyll-scholar)
       - name: Build with Jekyll
-        run: bundle exec jekyll build --future
+        run: bundle exec jekyll build --future --trace
 
-      # 5. Deploy the generated _site folder to gh-pages
+      # 5) Deploy _site -> gh-pages
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./_site
           publish_branch: gh-pages
+          enable_jekyll: false   # creates .nojekyll so Pages serves static files
