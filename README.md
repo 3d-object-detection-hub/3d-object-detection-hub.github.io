@@ -41,7 +41,7 @@ Feel free to reuse the data and code—just please cite the original thesis!
 
 ## 📑 Citation
 
-If you use this site, data, or code, please cite our publication:
+If you use this site or data, please cite our publication:
 
-> Valverde, M., Moutinho, A., & Zacchi, J. V. (2025). *A Survey of Deep Learning-Based 3D Object Detection Methods for Autonomous Driving Across Different Sensor Modalities.* Sensors.
+> Valverde, M., Moutinho, A., & Zacchi, J. V. (2025). *A Survey of Deep Learning-Based 3D Object Detection Methods for Autonomous Driving Across Different Sensor Modalities.* [Sensors](https://www.mdpi.com/1424-8220/25/17/5264).
 
