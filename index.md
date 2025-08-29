@@ -9,7 +9,11 @@ permalink: /
 This site was born out of a **Master’s thesis** effort to centralize and compare **every major 3D-OD method** using multiple sensor modalities. While many prior surveys focus on one sensor or era of work, here you’ll find:
 
 > **A unified, searchable, and maintainable catalog**  
-> covering camera-only, LiDAR-only, and multi-modal fusion approaches—all organized by **sensor** and **representation**.
+> covering camera-only, LiDAR-only, and multi-modal fusion approaches - all organized by **sensor** and **representation**.
+
+If you use this site or data, please cite our publication:
+
+> Valverde, M., Moutinho, A., & Zacchi, J. V. (2025). [*A Survey of Deep Learning-Based 3D Object Detection Methods for Autonomous Driving Across Different Sensor Modalities.*](https://www.mdpi.com/1424-8220/25/17/5264) Sensors.
 
 ---
 
@@ -97,7 +101,7 @@ For background on the thesis, site construction, and to reach out, visit 👉 [A
  
 ## 📑 Citation
 
-If you use this site, data, or code, please cite our publication:
+If you use this site or data, please cite our publication:
 
 > Valverde, M., Moutinho, A., & Zacchi, J. V. (2025). [*A Survey of Deep Learning-Based 3D Object Detection Methods for Autonomous Driving Across Different Sensor Modalities.*](https://www.mdpi.com/1424-8220/25/17/5264) Sensors.
 
