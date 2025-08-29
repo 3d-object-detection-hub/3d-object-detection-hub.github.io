@@ -93,5 +93,13 @@ For background on the thesis, site construction, and to reach out, visit 👉 [A
 - 🔄 Continuously update with **new methods** & **datasets**.  
 - ⚙️ Introduce a **Sensor Guide**: strengths & trade-offs of cameras, LiDARs, radars.  
 - 📊 Expand to **2D OD** and **Depth Estimation** surveys.  
-- 📝 Include references for a paper to be published, detailing how this study was carried out and its methodology.  
+- 📝 Include references for a paper to be published, detailing how this study was carried out and its methodology.
+ 
+## 📑 Citation
+
+If you use this site, data, or code, please cite our publication:
+
+> Valverde, M., Moutinho, A., & Zacchi, J. V. (2025). [*A Survey of Deep Learning-Based 3D Object Detection Methods for Autonomous Driving Across Different Sensor Modalities.*](https://www.mdpi.com/1424-8220/25/17/5264) Sensors.
+
+
 
