@@ -26,7 +26,7 @@ A unified, searchable, and maintainable catalog of **3D object-detection** metho
 ---
 
 
-🤝 Contributing
+## 🤝 Contributing
 Contributions are very welcome! Please:
 
 Open an issue to discuss new features or data.
@@ -35,6 +35,13 @@ Send a pull request with your changes (new methods, datasets, bug fixes).
 
 Ensure your additions follow the existing data format.
 
-📜 License
+## 📜 License
 This project is licensed under the GPL3.0 License.
 Feel free to reuse the data and code—just please cite the original thesis!
+
+## 📑 Citation
+
+If you use this site, data, or code, please cite our publication:
+
+> Valverde, M., Moutinho, A., & Zacchi, J. V. (2025). *A Survey of Deep Learning-Based 3D Object Detection Methods for Autonomous Driving Across Different Sensor Modalities.* Sensors.
+
