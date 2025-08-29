@@ -18,6 +18,14 @@ Welcome to the **3D Object Detection Hub**! This site is your one-stop reference
 
 ---
 
+## 📑 Citation
+
+If you use this site or data, please cite our publication:
+
+> Valverde, M., Moutinho, A., & Zacchi, J. V. (2025). *A Survey of Deep Learning-Based 3D Object Detection Methods for Autonomous Driving Across Different Sensor Modalities.* [Sensors](https://www.mdpi.com/1424-8220/25/17/5264).
+
+---
+
 ## 🛠️ Site Construction
 
 - **Framework:** Jekyll (v4.x)  
